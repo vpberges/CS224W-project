@@ -3,6 +3,6 @@
 <plist version="1.0">
 <dict>
 	<key>URL</key>
-	<string>https://www.kaggle.com/c/ChessRatings2/data?primary_training_part1.zip</string>
+	<string>https://www.kaggle.com/c/ChessRatings2/data</string>
 </dict>
 </plist>
