@@ -41,4 +41,7 @@ for line in f:
 
 PrintInfo(Graph, "QA Stats", "qa-info.txt", False)
 
-
+PRankH = TIntFltH()
+GetPageRank(Graph, PRankH)
+for item in PRankH:
+    print item, PRankH[item]
