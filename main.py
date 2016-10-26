@@ -11,7 +11,7 @@ Graph.AddIntAttrE('Weight')
 Graph.AddIntAttrE('MonthId')
 
 
-# i=0
+i=0
 for line in f:
 	PTID, MonthID, WhitePlayer, BlackPlayer, WhiteScore, WhitePlayerPrev, BlackPlayerPrev = line.split(',')
 	MonthID, WhitePlayer, BlackPlayer, WhiteScore = int(MonthID), int(WhitePlayer), int(BlackPlayer), float(WhiteScore)
@@ -36,9 +36,9 @@ for line in f:
 		Graph.AddIntAttrDatE(eId, 0, 'Weight')
 		Graph.AddIntAttrDatE(eId, MonthID, 'MonthID')
 
-	# i+=1
-	# if i>1000:
-	# 	break
+	i+=1
+	if i>1000:
+		break
 
 # PrintInfo(Graph, "QA Stats", "qa-info.txt", False)
 
@@ -67,10 +67,10 @@ def GetWeigth(EId):
 
 def GetEdgesIds(NId):
 	"To implement "
-	raise ('Need to implement GetEdgesIds()')
+	#raise ('Need to implement GetEdgesIds()')
 	return d[NId]
 
-print 'Perso Pagerank'
+print 'Iterative Pagerank'
 C = 0.85
 Eps=1e-4
 MaxIter=10
@@ -81,7 +81,8 @@ for n in range(Graph.GetNodes()):
 	new_PRankH[n] = 0
 
 for iteration in range(MaxIter):
-	for n in range(Graph.GetNodes()):
+	for N in Graph.Nodes():
+		n = N.GetId()
 		weights_to_add = {}
 		for edgeId in GetEdgesIds(n):
 			weights_to_add[Graph.GetEI(edgeId).GetDstNId()] = weights_to_add.get(Graph.GetEI(edgeId).GetDstNId(),0) + GetWeigth(edgeId)
@@ -94,16 +95,50 @@ for iteration in range(MaxIter):
 			for k in range(Graph.GetNodes()):
 				new_PRankH[k] += C * PRankH[n] / Graph.GetNodes()
 	if max([abs(new_PRankH[n] - PRankH[n]) for n in range(Graph.GetNodes())]) < Eps:
-		for n in range(Graph.GetNodes()):
+		for N in Graph.Nodes():
+			n = N.GetId()
 			PRankH[n] = new_PRankH[n]
 			new_PRankH[n] = 0
 		break
-	for n in range(Graph.GetNodes()):
+	for N in Graph.Nodes():
+		n = N.GetId()
 		PRankH[n] = new_PRankH[n]
 		new_PRankH[n] = 0
 
 for item in PRankH:
     print item, PRankH[item]
 
+# print 'Matrix PageRank'
+
+# from scipy.sparse import dok_matrix
+
+# node_indices = {}
+# i=0
+# for N in Graph.Nodes():
+# 	n = N.GetId()
+# 	node_indices[n] = i
+
+# L = dok_matrix((Graph.GetNodes(),Graph.GetNodes()))
+# for edge in Graph.Edges():
+# 	if True: 	#Check if edge is edge
+# 		L[node_indices[edge.GetSrcNId()],node_indices[edge.GetDstNId()]] += GetWeigth(edge.GetId())
 
 
+# M=L.transpose().dot(np.diag(1./np.asarray([max(1,x) for x in L.sum(1)])))
+# #M=L.transpose().dot(1./np.asarray([max(x,1) for x in np.asarray(L.sum(0))[0]]))
+# one = np.ones((Graph.GetNodes(),1))
+# r = one/Graph.GetNodes()
+
+# for i in range(1,100+1):
+# 	#print C/Graph.GetNodes()*one, (1-C)*np.dot(M,r)
+# 	r = (1-C)/Graph.GetNodes()*one + C*M.dot(r)
+# 	r += (1-sum(r))/Graph.GetNodes()
+
+# PRankH = TIntFltH()
+
+# for N in Graph.Nodes():
+# 	n = N.GetId()
+# 	PRankH[n] = r[node_indices[n]]
+
+# for item in PRankH:
+#     print item, PRankH[item]
