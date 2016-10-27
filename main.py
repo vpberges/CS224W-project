@@ -41,7 +41,9 @@ for line in f:
 		Graph.AddIntAttrDatE(eId, 0, 'Weight')
 		Graph.AddIntAttrDatE(eId, MonthID, 'MonthID')
 
-
+	# i+=1
+	# if i>100:
+	# 	break
 
 # PrintInfo(Graph, "QA Stats", "qa-info.txt", False)
 
@@ -90,6 +92,7 @@ for N in Graph.Nodes():
 	new_PRankH[n] = 0
 
 for iteration in range(MaxIter):
+	print iteration
 	for N in Graph.Nodes():
 		n = N.GetId()
 		weights_to_add = {}
@@ -99,13 +102,19 @@ for iteration in range(MaxIter):
 		for k in weights_to_add.keys():
 			
 			new_PRankH[k] += weights_to_add[k] * 1.0 / sum_weights * C * PRankH[n] 
-		for K in Graph.Nodes():
-			k = K.GetId()
-			new_PRankH[k] += (1-C) * PRankH[n] / Graph.GetNodes()
-		if sum_weights == 0:
-			for K in Graph.Nodes():
-				k = K.GetId()
-				new_PRankH[k] += C * PRankH[n] / Graph.GetNodes()
+		# for K in Graph.Nodes():
+		# 	k = K.GetId()
+		# 	new_PRankH[k] += (1-C) * PRankH[n] / Graph.GetNodes()
+		# if sum_weights == 0:
+		# 	for K in Graph.Nodes():
+		# 		k = K.GetId()
+		# 		new_PRankH[k] += C * PRankH[n] / Graph.GetNodes()
+
+	total_sum = sum([new_PRankH[N.GetId()] for N in Graph.Nodes()])
+	for N in Graph.Nodes():
+		n = N.GetId()
+		new_PRankH[n] += (1-total_sum)/Graph.GetNodes()
+
 	if max([abs(new_PRankH[N.GetId()] - PRankH[N.GetId()]) for N in Graph.Nodes()]) < Eps:
 		for N in Graph.Nodes():
 			n = N.GetId()
@@ -119,6 +128,17 @@ for iteration in range(MaxIter):
 
 for item in PRankH:
     print item, PRankH[item]
+
+
+
+PRankH_old = TIntFltH()
+GetPageRank(Graph, PRankH_old)
+print 'Comparison'
+print max([abs(PRankH[N.GetId()] - PRankH_old[N.GetId()]) for N in Graph.Nodes()])
+
+
+
+
 
 # print 'Matrix PageRank'
 
