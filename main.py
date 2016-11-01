@@ -83,7 +83,7 @@ def GetEdgesIds(NId):
 print 'Iterative Pagerank'
 C = 0.85
 Eps=1e-4
-MaxIter=10
+MaxIter=20
 PRankH = TIntFltH()
 new_PRankH = TIntFltH()
 for N in Graph.Nodes():
@@ -137,8 +137,11 @@ print 'Comparison'
 print max([abs(PRankH[N.GetId()] - PRankH_old[N.GetId()]) for N in Graph.Nodes()])
 
 
-
-
+f = open('output.csv','w')
+for N in Graph.Nodes():
+	n = N.GetId()
+	f.write(str(n)+ ','+str(PRankH[n])+'\n')
+f.close()
 
 # print 'Matrix PageRank'
 
