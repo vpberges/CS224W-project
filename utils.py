@@ -5,11 +5,10 @@ import collections
 
 
 
-def get_graph(fileName, Graph = TNEANet.New()):
+def get_graph(fileName, Graph, EIds ):
 	f = open(fileName.replace('.csv','')+'.csv')
-	Graph.AddIntAttrE('Weight')
-	Graph.AddIntAttrE('MonthId')
-	EIds = collections.defaultdict(list)
+
+	
 
 	for line in f:
 		try:

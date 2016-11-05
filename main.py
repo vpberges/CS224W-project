@@ -4,7 +4,12 @@ import random
 import numpy as np
 import utils
 
-Graph, EIds = utils.get_graph('training')
+Graph = TNEANet.New()
+Graph.AddIntAttrE('Weight')
+Graph.AddIntAttrE('MonthId')
+EIds = collections.defaultdict(list)
+
+Graph, EIds = utils.get_graph('training', Graph, EIds)
 
 
 
@@ -18,7 +23,6 @@ def GetWeigth(EId):
 	return 1
 
 def GetEdgesIds(NId):
-	"To implement "
 	result = []
 	for list_of_EIds in  [EIds[(NId,x)] for x in Graph.GetNI(NId).GetOutEdges()]:
 		result += list_of_EIds
