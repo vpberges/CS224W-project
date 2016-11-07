@@ -2,13 +2,8 @@ from snap import *
 import collections
 
 
-
-
-
 def get_graph(fileName, Graph, EIds ):
 	f = open(fileName.replace('.csv','')+'.csv')
-
-	
 
 	for line in f:
 		if 'PTID' in line:
@@ -41,4 +36,17 @@ def get_graph(fileName, Graph, EIds ):
 			Graph.AddIntAttrDatE(eId, MonthID, 'MonthID')
 
 	return Graph, EIds
+
+def GetOutEdgesIds(Graph, NId, EIds):
+	result = []
+	for list_of_EIds in [EIds[(NId,x)] for x in Graph.GetNI(NId).GetOutEdges()]:
+		result += list_of_EIds
+	return result
+
+def GetInEdgesIds(Graph, NId, EIds):
+	result = []
+	for list_of_EIds in [EIds[(x, NId)] for x in Graph.GetNI(NId).GetInEdges()]:
+		result += list_of_EIds
+	return result
+
 

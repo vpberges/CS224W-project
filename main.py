@@ -29,7 +29,7 @@ def GetEdgesIds(NId):
 	return result
 	#raise ('Need to implement GetEdgesIds()')
 	#return d[NId]
-
+#How did you count multiple edges connecting between two nodes?
 
 print 'Iterative Pagerank'
 C = 0.85
