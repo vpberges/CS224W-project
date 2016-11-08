@@ -34,7 +34,7 @@ for N in Graph.Nodes():
 f = open('baseline_ranking.csv','w')
 for N in Graph.Nodes():
 	n = N.GetId()
-	f.write(str(n)+ ','+str(node_stat['win'])+','+str(node_stat['draw'])+','+str(node_stat['loss'])+'\n')
+	f.write(str(n)+ ','+str(node_stat[n]['win'])+','+str(node_stat[n]['draw'])+','+str(node_stat[n]['loss'])+'\n')
 f.close()
 
 
