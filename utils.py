@@ -2,14 +2,18 @@ from snap import *
 import collections
 
 
-def get_graph(fileName, Graph, EIds ):
+def get_graph(fileName, Graph, EIds, giveStats=False):
 	f = open(fileName.replace('.csv','')+'.csv')
+        minMonth = float('inf')
+        maxMonth = float('-inf')
 
 	for line in f:
 		if 'PTID' in line:
 			continue
 		PTID, MonthID, WhitePlayer, BlackPlayer, WhiteScore, WhitePlayerPrev, BlackPlayerPrev = line.split(',')
 		MonthID, WhitePlayer, BlackPlayer, WhiteScore = int(MonthID), int(WhitePlayer), int(BlackPlayer), float(WhiteScore)
+                minMonth = min(minMonth, MonthID)
+                maxMonth = max(maxMonth, MonthID)
 		if not Graph.IsNode(WhitePlayer):
 			Graph.AddNode(WhitePlayer)
 		if not Graph.IsNode(BlackPlayer):
@@ -34,7 +38,9 @@ def get_graph(fileName, Graph, EIds ):
 	                EIds[(BlackPlayer, WhitePlayer)].append(eId)
 			Graph.AddIntAttrDatE(eId, 0, 'Weight')
 			Graph.AddIntAttrDatE(eId, MonthID, 'MonthID')
-
+        stats = {'minMonth': minMonth, 'maxMonth': maxMonth}
+        if giveStats:
+            return Graph, EIds, stats
 	return Graph, EIds
 
 def GetOutEdgesIds(Graph, NId, EIds):

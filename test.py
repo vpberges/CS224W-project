@@ -3,15 +3,15 @@ import numpy as np
 import matplotlib.pyplot as plt
 import itertools
 
-def prediction(rating, player1, player2):
+def prediction(rating, player1, player2, tiebreak_func=(lambda x,y: x==y)):
 	if player1 not in rating or player2 not in rating:
 		return -1.0
 	rating1 = rating[player1]
 	rating2 = rating[player2]
-	if rating1 > rating2:
-		return 1.0
-	elif rating1 == rating2:
+	if tiebreak_func(rating1, rating2):
 		return 0.5
+	elif rating1 > rating2:
+		return 1.0
 	else:
 		return 0.0
 
@@ -48,6 +48,7 @@ def plot_confusion_matrix(cm, classes,
 
 def accuracy(test, rating, **kwargs):
 	option = kwargs.get("option", 'All')
+        tiebreak = kwargs.get("tiebreak", None)
 	predict = dict()
 	label = {}
 	with open(test, 'rU') as f:
@@ -56,7 +57,10 @@ def accuracy(test, rating, **kwargs):
 			TEID, MonthID, WhitePlayer, BlackPlayer, WhiteScore, Leaderboard = line.strip().split(',')
 			TEID, MonthID, WhitePlayer, BlackPlayer, WhiteScore = \
 				int(TEID), int(MonthID), int(WhitePlayer), int(BlackPlayer), float(WhiteScore)
-			predict[TEID] = prediction(rating, WhitePlayer, BlackPlayer)
+                        if not tiebreak:
+                            predict[TEID] = prediction(rating, WhitePlayer, BlackPlayer)
+                        else:
+                            predict[TEID] = prediction(rating, WhitePlayer, BlackPlayer,tiebreak)
 			label[TEID] = WhiteScore
 
 	y_true = []; y_hat = []
@@ -79,7 +83,7 @@ for line in rating_file:
 	rating[Player] = Rating
 
 pagerank = dict()
-rating_file = open('output.csv')
+rating_file = open('output_weighted_age.csv')
 rating_file.readline()
 for line in rating_file:
 	Player, Rating = line.strip().split(',')
@@ -96,7 +100,7 @@ for line in rating_file:
 
 ####################Score##################### 
 y_true, y_hat = accuracy('test.csv', rating)
-print 'absolute score', sum(abs(y_true-y_hat))/len(y_true-y_hat) 
+print 'absolute error', sum(abs(y_true-y_hat))/len(y_true-y_hat) 
 cnf_matrix = confusion_matrix(map(str,y_true), map(str,y_hat))
 np.set_printoptions(precision=2)
 # Plot non-normalized confusion matrix
@@ -105,9 +109,9 @@ plot_confusion_matrix(cnf_matrix, classes=['win', 'draw', 'loss'],
                       title='Confusion matrix Initial Rating')
 plt.show()
 
-
-y_true1, y_hat1 = accuracy('test.csv', pagerank)
-print 'absolute score', sum(abs(y_true1-y_hat1))/len(y_true1-y_hat1) 
+args = {'tiebreak':lambda x,y: 2*np.sqrt(x*y) / (x + y + 2*np.sqrt(x*y)) > 0.49}
+y_true1, y_hat1 = accuracy('test.csv', pagerank, **args)
+print 'absolute error', sum(abs(y_true1-y_hat1))/len(y_true1-y_hat1) 
 cnf_matrix1 = confusion_matrix(map(str,y_true1), map(str,y_hat1))
 np.set_printoptions(precision=2)
 # Plot non-normalized confusion matrix
@@ -117,13 +121,13 @@ plot_confusion_matrix(cnf_matrix1, classes=['win', 'draw', 'loss'],
 plt.show()
 
 y_true2, y_hat2 = accuracy('test.csv', baseline)
-print 'absolute score', sum(abs(y_true2-y_hat2))/len(y_true2-y_hat2) 
+print 'absolute error', sum(abs(y_true2-y_hat2))/len(y_true2-y_hat2) 
 cnf_matrix2 = confusion_matrix(map(str,y_true2), map(str,y_hat2))
 np.set_printoptions(precision=2)
 # Plot non-normalized confusion matrix
 plt.figure()
 plot_confusion_matrix(cnf_matrix2, classes=['win', 'draw', 'loss'],
-                      title='Confusion matrix Pagerank')
+                      title='Confusion matrix Baseline')
 plt.show()
 
 
