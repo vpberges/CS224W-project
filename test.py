@@ -86,6 +86,14 @@ for line in rating_file:
 	Player, Rating = float(Player), float(Rating)
 	pagerank[Player] = Rating
 
+baseline = dict()
+rating_file = open('baseline_ranking.csv')
+rating_file.readline()
+for line in rating_file:
+	Player, Rating, draw, loss = line.strip().split(',')
+	Player, Rating = float(Player), float(Rating)
+	baseline[Player] = Rating
+
 ####################Score##################### 
 y_true, y_hat = accuracy('test.csv', rating)
 print 'absolute score', sum(abs(y_true-y_hat))/len(y_true-y_hat) 
@@ -108,6 +116,15 @@ plot_confusion_matrix(cnf_matrix1, classes=['win', 'draw', 'loss'],
                       title='Confusion matrix Pagerank')
 plt.show()
 
+y_true2, y_hat2 = accuracy('test.csv', baseline)
+print 'absolute score', sum(abs(y_true2-y_hat2))/len(y_true2-y_hat2) 
+cnf_matrix2 = confusion_matrix(map(str,y_true2), map(str,y_hat2))
+np.set_printoptions(precision=2)
+# Plot non-normalized confusion matrix
+plt.figure()
+plot_confusion_matrix(cnf_matrix2, classes=['win', 'draw', 'loss'],
+                      title='Confusion matrix Pagerank')
+plt.show()
 
 
 
