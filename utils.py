@@ -1,5 +1,6 @@
 from snap import *
 import collections
+import numpy as np
 
 
 def get_graph(fileName, Graph, EIds, giveStats=False):
@@ -55,13 +56,13 @@ def GetInEdgesIds(Graph, NId, EIds):
 		result += list_of_EIds
 	return result
 
-def GetEdgesIds(NId):
+def GetEdgesIds(Graph, NId, EIds):
 	result = []
 	for list_of_EIds in [EIds[(NId,x)] for x in Graph.GetNI(NId).GetOutEdges()]:
 		result += list_of_EIds
 	return result
 
-def PageRank(Graph, GetWeight):
+def PageRank(Graph, EIds, stats, GetWeight):
 	C = 0.88
 	Eps=5e-5
 	MaxIter=20
@@ -76,8 +77,8 @@ def PageRank(Graph, GetWeight):
 		for N in Graph.Nodes():
 			n = N.GetId()
 			weights_to_add = {}
-			for edgeId in GetEdgesIds(n):
-				weights_to_add[Graph.GetEI(edgeId).GetDstNId()] = weights_to_add.get(Graph.GetEI(edgeId).GetDstNId(),0) + GetWeight(edgeId)
+			for edgeId in GetEdgesIds(Graph, n, EIds):
+				weights_to_add[Graph.GetEI(edgeId).GetDstNId()] = weights_to_add.get(Graph.GetEI(edgeId).GetDstNId(),0) + GetWeight(Graph, edgeId, stats)
 			sum_weights = sum(weights_to_add.values())
 			for k in weights_to_add.keys():
 				
@@ -100,7 +101,7 @@ def PageRank(Graph, GetWeight):
 			new_PRankH[n] = 0
 	return PRankH
 
-def advancedGetWeight(EId):
+def advancedGetWeight(Graph, EId, stats):
     monthId = Graph.GetIntAttrDatE(EId, 'MonthID')
     baseWeight = 1 if Graph.GetIntAttrDatE(EId,'Weight') else 0.5
     # Oldest month still is weighted as 1/(1+e^(-2))=0.88 of its original value
