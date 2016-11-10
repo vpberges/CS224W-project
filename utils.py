@@ -106,3 +106,55 @@ def advancedGetWeight(Graph, EId, stats):
     baseWeight = 1 if Graph.GetIntAttrDatE(EId,'Weight') else 0.5
     # Oldest month still is weighted as 1/(1+e^(-2))=0.88 of its original value
     return baseWeight * (1.0 / (1 + np.exp(-1.0 * (monthId-stats['minMonth']+2))))
+
+def noLoops(Graph, EIds):
+	tmp_flag = False
+	for N in Graph.Nodes():
+		for n2 in N.GetOutEdges():
+			for edgeId in EIds[(N.GetId(), n2)]:
+				if tmp_flag == True:
+					tmp_flag = False
+					continue
+				else :
+					if Graph.GetIntAttrDatE(edgeId,'Weight') == 1 :
+						if tmp_flag == True : break
+						N2 = Graph.GetNI(n2)
+						for n3 in N2.GetOutEdges():
+							if tmp_flag == True : break
+							for edgeId2 in EIds[(n2, n3)]:
+								if tmp_flag == True : break
+								if Graph.GetIntAttrDatE(edgeId2,'Weight') == 1 :
+									if tmp_flag == True : break
+									for edgeId3 in EIds[(n3, N.GetId())]:
+										if tmp_flag == True : break
+										if Graph.GetIntAttrDatE(edgeId3,'Weight') == 1 :
+											#print '----> ',N.GetId(),n2,n3,'----> ', edgeId, edgeId2, edgeId3
+											if tmp_flag == True : break
+											#We need to remove the edges:
+											#print 'key : ',(N.GetId(), n2)
+											EIds[(N.GetId(), n2)].remove(edgeId)
+											# if EIds[(N.GetId(), n2)] == [] :
+											# 	EIds[(N.GetId(), n2)] ='***'
+											# 	#EIds.pop((N.GetId(), n2), None)
+											EIds[(n2, n3)].remove(edgeId2)
+											# if EIds[(n2, n3)] == [] :
+											# 	#EIds.pop((n2, n3), None)
+											# 	EIds[(n2, n3)] ='***'
+											EIds[(n3, N.GetId())].remove(edgeId3)
+											# if EIds[(n3, N.GetId())] == [] :
+											# 	EIds[(n3, N.GetId())] ='***'
+											# 	#EIds.pop((n3, N.GetId()), None)
+											Graph.DelEdge(edgeId)
+											Graph.DelEdge(edgeId2)
+											Graph.DelEdge(edgeId3)
+											tmp_flag = True
+	for key in EIds.keys():
+		if EIds[key] == []:
+			EIds.pop(key, None)
+	return Graph, EIds
+
+
+
+
+
+
