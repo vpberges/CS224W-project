@@ -110,7 +110,11 @@ def advancedGetWeight(Graph, EId, stats):
 def noLoops(Graph, EIds):
 	tmp_flag = False
 	for N in Graph.Nodes():
-		for n2 in N.GetOutEdges():
+		# print N.GetId() ,' : ',N.GetOutDeg()
+		# print [n2 for n2 in N.GetOutEdges()]
+		# for n2 in N.GetOutEdges():
+		# 	print n2
+		for n2 in [x for x in N.GetOutEdges()]:
 			for edgeId in EIds[(N.GetId(), n2)]:
 				if tmp_flag == True:
 					tmp_flag = False
@@ -119,7 +123,7 @@ def noLoops(Graph, EIds):
 					if Graph.GetIntAttrDatE(edgeId,'Weight') == 1 :
 						if tmp_flag == True : break
 						N2 = Graph.GetNI(n2)
-						for n3 in N2.GetOutEdges():
+						for n3 in [x for x in N2.GetOutEdges()]:
 							if tmp_flag == True : break
 							for edgeId2 in EIds[(n2, n3)]:
 								if tmp_flag == True : break
