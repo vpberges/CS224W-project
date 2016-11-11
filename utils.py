@@ -159,6 +159,14 @@ def noLoops(Graph, EIds):
 
 
 
-
+def noDraws(Graph, EIds):
+	for edge in Graph.Edges():
+		if Graph.GetIntAttrDatE(edge.GetId(),'Weight') == 0 :
+			EIds[(edge.GetSrcNId(), edge.GetDstNId())].remove(edge.GetId())
+			Graph.DelEdge(edge.GetId())
+	for key in EIds.keys():
+		if EIds[key] == []:
+			EIds.pop(key, None)
+	return Graph, EIds
 
 
