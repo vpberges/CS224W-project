@@ -9,9 +9,9 @@
 ## Update Results here
 | Method         | Mean Abs Error | Exact Error | Balanced Error  |
 | -------------  |:-------------: | -----------:|----------------:|
-| Baseline       | right-aligned | $1600 | 600 |
-| Initial Rating | centered      |   $12 |600 |
-| Pagerank       | are neat      |    $1 |600 |
+| Baseline       | 0.419  | 0.433      | 0.388 |
+| Initial Rating | 0.403       |   0.392       | 0.402 |
+| Pagerank Weighted  | 0.371       |   0.483       | 0.322 |
+| Pagerank Weighted Tiebreak | 0.322       |   0.464      | 0.476 |
 
 
-- Baseline: 0.419296767716
