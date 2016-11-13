@@ -55,18 +55,19 @@ def accuracy(test, predicted):
 			y_hat.append(predict[TEID])
 	y_true = np.asarray(y_true)
 	y_hat = np.asarray(y_hat)
-
-	print 'Method: ', predicted[11:-4]
-	print 'mean absolute difference error: ', sum(abs(y_true-y_hat))/len(y_true-y_hat) 
-	print 'exact error: '
 	cnf_matrix = confusion_matrix(map(str,y_true), map(str,y_hat))
+	print 'Method: ', predicted[11:-4]
+	print 'Mean Absolute Difference Error: ', sum(abs(y_true-y_hat))/len(y_true-y_hat) 
+	print 'Exact Error: ', sum(abs(y_true-y_hat) == 0)/len(y_true-y_hat) 
+	print 'Balanced Error Rate: ', np.trace(cnf_matrix*1.0/np.sum(cnf_matrix, axis = 0))/3.0
+
 	np.set_printoptions(precision=2)
 	# Plot non-normalized confusion matrix
 	plt.figure()
 	plot_confusion_matrix(cnf_matrix, classes=['win', 'draw', 'loss'], title='Confusion matrix ' + predicted[11:-4])
 	plt.show()
 
-	return y_true, y_hat
+	return y_true, y_hat, cnf_matrix
 
 
 
