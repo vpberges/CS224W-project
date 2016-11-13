@@ -5,6 +5,18 @@ import numpy as np
 import pandas as pd
 import utils
 import copy
+import sys
+
+
+# graphFile = 'training.csv'
+# trainFile = 'validation.csv'
+# nameFile = 'valFeatures.csv'
+
+graphFile = sys.argv[1]
+trainFile = sys.argv[2]
+nameFile = sys.argv[3]
+
+
 
 
 Graph = TNEANet.New()
@@ -14,8 +26,10 @@ EIds = collections.defaultdict(list)
 
 #Graph, EIds = utils.get_graph('training.csv', Graph, EIds)
 #Graph, EIds = utils.get_graph('../original_files/primary_training_part1', Graph, EIds)
-Graph, EIds = utils.get_graph('../original_files/primary_training_part2', Graph, EIds)
+#Graph, EIds = utils.get_graph('../original_files/primary_training_part2', Graph, EIds)
 #Graph, EIds = utils.get_graph('very_tiny', Graph, EIds)
+
+Graph, EIds , stats= utils.get_graph(graphFile, Graph, EIds, True)
 
 def GetEdgesIds(NId):
 	result = []
@@ -82,15 +96,17 @@ def GetLinksOrder(A, B, order = 0, visited = []):
 
 
 
-f = open('training.csv', 'r')
+f = open(trainFile, 'rU')
 #f = open('very_tiny.csv')
-output = open('localPropertiesSecondDataFrame.csv','w')
+output = open(nameFile,'w')
 # output.write('DVL,DL,White_D,VDV,DVD,DD,DDL,White_L,Black_L,LLV,VDD,White_V,DV,DVV,VDL,LD,VLL,LDD,VVV,LL,Black_D,VLD,LDL,LV,DDV,VVL,LDV,LLL,VVD,VLV,LVV,VD,D,DLD,White_PRank,VL,BlackPlayer,L,LVD,WhitePlayer,DLV,VV,V,LVL,DLL,DDD,Black_PRank,TrueWhiteScore,LLD,Black_V\n')
 
 #table = pd.DataFrame(columns = ['WhitePlayer', 'BlackPlayer', 'TrueWhiteScore', 'V', 'D', 'L'])
 
-PRankH = TIntFltH()
-GetPageRank(Graph, PRankH)
+#RankH = TIntFltH()
+#GetPageRank(Graph, PRankH)
+
+PRankH = utils.PageRank(Graph, EIds , stats, utils.advancedGetWeight)
 
 max_intermediate = 2
 
@@ -98,10 +114,12 @@ max_intermediate = 2
 print 'start...'
 i=0
 for line in f:
-	if 'PTID' in line:
+	if 'MonthID' in line:
 		continue
-
-	PTID, MonthID, WhitePlayer, BlackPlayer, WhiteScore, WhitePlayerPrev, BlackPlayerPrev = line.split(',')
+	if trainFile == 'test.csv':
+		PTID, MonthID, WhitePlayer, BlackPlayer, WhiteScore, Trash = line.split(',')
+	else :
+		PTID, MonthID, WhitePlayer, BlackPlayer, WhiteScore, WhitePlayerPrev, BlackPlayerPrev = line.split(',')
 	MonthID, WhitePlayer, BlackPlayer, WhiteScore = int(MonthID), int(WhitePlayer), int(BlackPlayer), float(WhiteScore)
 	tmp_dict = {'DVL': 0, 'DL': 0, 'White_D': 0, 'VDV': 0, 'DVD': 0, 'DD': 0, 'DDL': 0, 'White_L': 0, 'Black_L': 0, 'LLV': 0,\
 	 'VDD': 0, 'White_V': 0, 'DV': 0, 'DVV': 0, 'VDL': 0, 'LD': 0, 'VLL': 0, 'LDD': 0, 'VVV': 0, 'LL': 0, 'Black_D': 0, 'VLD': 0, \
@@ -116,7 +134,6 @@ for line in f:
 				tmp_dict.update(GetLinksOrder(WhitePlayer, BlackPlayer, order = deg, visited = [WhitePlayer,BlackPlayer]))
 			except:
 				raise
-
 
 
 
@@ -187,4 +204,7 @@ for line in f:
 
 #table = table.append(pd.DataFrame(tmp_dict, index = [i]))
 #table.to_csv('localDataFrame.csv')
+
+f.close()
+output.close()
 
