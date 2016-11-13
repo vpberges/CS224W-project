@@ -8,7 +8,7 @@
 
 ## Update Results here
 | Method         | Mean Abs Error | Exact Error | Balanced Error  |
-| -------------  |:-------------: | -----------:|----------------:|
+| -------------  |:-------------: | :-----------:|:---------------:|
 | Baseline       | 0.419  | 0.433      | 0.388 |
 | Initial Rating | 0.403       |   0.392       | 0.402 |
 | Pagerank Weighted  | 0.371       |   0.483       | 0.322 |
