@@ -20,3 +20,6 @@ y_true, y_hat, cnf_matrix = accuracy('test.csv', 'initial_ratings.csv')
 y_true, y_hat, cnf_matrix = accuracy('test.csv', 'pagerank_weighted_age.csv')
 y_true, y_hat, cnf_matrix = accuracy('test.csv', 'pagerank_weighted_age_tiebreak.csv')
 y_true, y_hat, cnf_matrix = accuracy('test.csv', 'baseline.csv')
+
+y_true, y_hat, cnf_matrix = accuracy('test.csv', 'LogisticRegressionPredict.csv')
+y_true, y_hat, cnf_matrix = accuracy('test.csv', 'RandomForestPredict.csv')

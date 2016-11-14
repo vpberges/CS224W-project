@@ -4,7 +4,7 @@ import numpy as np
 
 
 def get_graph(fileName, Graph, EIds, giveStats=False):
-	f = open(fileName.replace('.csv','')+'.csv')
+	f = open('data/' + fileName.replace('.csv','').replace('data/','')+'.csv')
         minMonth = float('inf')
         maxMonth = float('-inf')
 
@@ -74,6 +74,7 @@ def PageRank(Graph, EIds, stats, GetWeight):
 		new_PRankH[n] = 0
 
 	for iteration in range(MaxIter):
+		print '.',
 		for N in Graph.Nodes():
 			n = N.GetId()
 			weights_to_add = {}

@@ -7,6 +7,8 @@ import utils
 import copy
 
 
+### USING PANDAS DATAFRAMES DID NOT WORK
+
 
 
 graphTable = pd.read_csv('train.csv')[['WhitePlayer','BlackPlayer','WhiteScore']]

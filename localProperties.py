@@ -27,7 +27,7 @@ EIds = collections.defaultdict(list)
 #Graph, EIds = utils.get_graph('training.csv', Graph, EIds)
 #Graph, EIds = utils.get_graph('../original_files/primary_training_part1', Graph, EIds)
 #Graph, EIds = utils.get_graph('../original_files/primary_training_part2', Graph, EIds)
-#Graph, EIds = utils.get_graph('very_tiny', Graph, EIds)
+
 
 Graph, EIds , stats= utils.get_graph(graphFile, Graph, EIds, True)
 
@@ -205,6 +205,6 @@ for line in f:
 #table = table.append(pd.DataFrame(tmp_dict, index = [i]))
 #table.to_csv('localDataFrame.csv')
 
-f.close()
+f.write()
 output.close()
 
