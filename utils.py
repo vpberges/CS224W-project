@@ -102,11 +102,17 @@ def PageRank(Graph, EIds, stats, GetWeight):
 			new_PRankH[n] = 0
 	return PRankH
 
-def advancedGetWeight(Graph, EId, stats):
+def sigmoidGetWeight(Graph, EId, stats):
     monthId = Graph.GetIntAttrDatE(EId, 'MonthID')
     baseWeight = 1 if Graph.GetIntAttrDatE(EId,'Weight') else 0.5
     # Oldest month still is weighted as 1/(1+e^(-2))=0.88 of its original value
     return baseWeight * (1.0 / (1 + np.exp(-1.0 * (monthId-stats['minMonth']+2))))
+
+def expGetWeight(Graph, EId, stats):
+    monthId = Graph.GetIntAttrDatE(EId, 'MonthID')
+    baseWeight = 1 if Graph.GetIntAttrDatE(EId,'Weight') else 0.5
+	# Oldest month is scaled by e^(-1) = 0.37
+    return baseWeight * np.exp((monthId-stats['maxMonth'])/(stats['maxMonth']-stats['minMonth']))
 
 def noLoops(Graph, EIds):
 	tmp_flag = False

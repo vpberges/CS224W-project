@@ -35,7 +35,10 @@ def accuracy(test, predicted, **kwargs):
 	with open(test, 'rU') as f:
 		next(f)
 		for line in f:
-			TEID, MonthID, WhitePlayer, BlackPlayer, WhiteScore, Leaderboard = line.strip().split(',')
+			if test == 'data/test.csv':
+				TEID, MonthID, WhitePlayer, BlackPlayer, WhiteScore, Leaderboard = line.strip().split(',')
+			else:
+				TEID, MonthID, WhitePlayer, BlackPlayer, WhiteScore, WhitePlayerPrev, BlackPlayerPrev = line.strip().split(',')
 			TEID, MonthID, WhitePlayer, BlackPlayer, WhiteScore = \
 					int(TEID), int(MonthID), int(WhitePlayer), int(BlackPlayer), float(WhiteScore)
 			label[TEID] = WhiteScore
@@ -69,9 +72,6 @@ def accuracy(test, predicted, **kwargs):
 		plt.show()
 
 	return y_true, y_hat, cnf_matrix
-
-
-
 
 
 
