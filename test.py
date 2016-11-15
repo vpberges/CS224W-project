@@ -59,8 +59,8 @@ def accuracy(test, predicted, **kwargs):
 	cnf_matrix = confusion_matrix(map(str,y_true), map(str,y_hat))
 	print '############# Method : ', predicted[11:-4], ' ################' 
 	print 'Mean Absolute Difference Error: ', sum(abs(y_true-y_hat))/len(y_true-y_hat) 
-	print 'Exact Error: ', sum(abs(y_true-y_hat) == 0)*1.0/len(y_true-y_hat) 
-	print 'Balanced Error Rate: ', np.trace(cnf_matrix*1.0/np.sum(cnf_matrix, axis = 0))/3.0
+	print 'Exact Accyracy: ', sum(abs(y_true-y_hat) == 0)*1.0/len(y_true-y_hat) 
+	print 'Balanced Accuracy: ', np.trace(cnf_matrix*1.0/np.sum(cnf_matrix, axis = 0))/3.0
 	if(plot):
 		np.set_printoptions(precision=2)
 		# Plot non-normalized confusion matrix

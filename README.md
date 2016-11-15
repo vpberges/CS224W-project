@@ -7,7 +7,7 @@
 
 
 ## Update Results here
-| Method         | Mean Abs Error | Exact Error | Balanced Error  |
+| Method         | Mean Abs Error | Exact Accuracy | Balanced Accuracy  |
 | -------------  |:-------------: | :-----------:|:---------------:|
 | Baseline       | 0.419  | 0.433      | 0.388 |
 | Initial Rating | 0.403       |   0.392       | 0.402 |
