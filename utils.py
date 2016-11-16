@@ -4,9 +4,12 @@ import numpy as np
 
 
 def get_graph(fileName, Graph, EIds, giveStats=False):
-	f = open('data/' + fileName.replace('.csv','').replace('data/','')+'.csv')
-        minMonth = float('inf')
-        maxMonth = float('-inf')
+	try:
+		f = open('data/' + fileName.replace('.csv','').replace('data/','')+'.csv')
+	except:
+		f = open(fileName.replace('.csv','').replace('data/','')+'.csv')
+	minMonth = float('inf')
+	maxMonth = float('-inf')
 
 	for line in f:
 		if 'PTID' in line:
@@ -117,10 +120,27 @@ def expGetWeight(Graph, EId, stats):
 def noLoops(Graph, EIds):
 	tmp_flag = False
 	for N in Graph.Nodes():
-		# print N.GetId() ,' : ',N.GetOutDeg()
-		# print [n2 for n2 in N.GetOutEdges()]
-		# for n2 in N.GetOutEdges():
-		# 	print n2
+		for n2 in [x for x in N.GetOutEdges()]:
+			for edgeId in EIds[(N.GetId(), n2)]:
+				if tmp_flag == True:
+					tmp_flag = False
+					continue
+				else :
+					if Graph.GetIntAttrDatE(edgeId,'Weight') == 1 :
+						if tmp_flag == True : break
+						N2 = Graph.GetNI(n2)
+						for edgeId2 in EIds[(n2, N.GetId())]:
+							if Graph.GetIntAttrDatE(edgeId2,'Weight') == 1 :
+								if tmp_flag == True : break
+								EIds[(N.GetId(), n2)].remove(edgeId)
+								EIds[(n2, N.GetId())].remove(edgeId2)
+								Graph.DelEdge(edgeId)
+								Graph.DelEdge(edgeId2)
+								tmp_flag = True
+
+
+	tmp_flag = False
+	for N in Graph.Nodes():
 		for n2 in [x for x in N.GetOutEdges()]:
 			for edgeId in EIds[(N.GetId(), n2)]:
 				if tmp_flag == True:

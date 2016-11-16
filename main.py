@@ -24,3 +24,5 @@ y_true, y_hat, cnf_matrix = accuracy('test.csv', 'baseline.csv')
 
 y_true, y_hat, cnf_matrix = accuracy('test.csv', 'LogisticRegressionPredict.csv')
 y_true, y_hat, cnf_matrix = accuracy('test.csv', 'RandomForestPredict.csv')
+y_true, y_hat, cnf_matrix = accuracy('test.csv', 'LogisticRegressionPredictNoPRank.csv')
+y_true, y_hat, cnf_matrix = accuracy('test.csv', 'RandomForestPredictNoPRank.csv')
