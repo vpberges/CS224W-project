@@ -16,13 +16,20 @@ if(False):
 
 
 #############################################################
-
+y_true, y_hat, cnf_matrix = accuracy('test.csv', 'random.csv')
+y_true, y_hat, cnf_matrix = accuracy('test.csv', 'baseline.csv')
 y_true, y_hat, cnf_matrix = accuracy('test.csv', 'initial_ratings.csv')
 y_true, y_hat, cnf_matrix = accuracy('test.csv', 'pagerank_weighted_age.csv')
 y_true, y_hat, cnf_matrix = accuracy('validation.csv', 'pagerank_weighted_age_tiebreak.csv')
-y_true, y_hat, cnf_matrix = accuracy('test.csv', 'baseline.csv')
 
+
+y_true, y_hat, cnf_matrix = accuracy('test.csv', 'beat.csv')
 y_true, y_hat, cnf_matrix = accuracy('test.csv', 'LogisticRegressionPredict.csv')
 y_true, y_hat, cnf_matrix = accuracy('test.csv', 'RandomForestPredict.csv')
 y_true, y_hat, cnf_matrix = accuracy('test.csv', 'LogisticRegressionPredictNoPRank.csv')
 y_true, y_hat, cnf_matrix = accuracy('test.csv', 'RandomForestPredictNoPRank.csv')
+
+y_true, y_hat, cnf_matrix = accuracy('test.csv', 'LogisticRegressionNoLoopsPredict.csv')
+y_true, y_hat, cnf_matrix = accuracy('test.csv', 'RandomForestNoLoopsPredict.csv')
+y_true, y_hat, cnf_matrix = accuracy('test.csv', 'LogisticRegressionNoLoopsPredictNoPRank.csv')
+y_true, y_hat, cnf_matrix = accuracy('test.csv', 'RandomForestNoLoopsPredictNoPRank.csv')

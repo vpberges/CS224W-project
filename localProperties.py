@@ -31,6 +31,11 @@ EIds = collections.defaultdict(list)
 
 Graph, EIds , stats= utils.get_graph(graphFile, Graph, EIds, True)
 
+"""If you want the graph to be different : """
+Graph, EIds  =  utils.noLoops(Graph, EIds)
+
+
+
 def GetEdgesIds(NId):
 	result = []
 	for list_of_EIds in  [EIds[(NId,x)] for x in Graph.GetNI(NId).GetOutEdges()]:
@@ -106,7 +111,7 @@ output = open(nameFile,'w')
 #RankH = TIntFltH()
 #GetPageRank(Graph, PRankH)
 
-PRankH = utils.PageRank(Graph, EIds , stats, utils.advancedGetWeight)
+PRankH = utils.PageRank(Graph, EIds , stats, utils.sigmoidGetWeight)
 
 max_intermediate = 2
 
@@ -116,7 +121,7 @@ i=0
 for line in f:
 	if 'MonthID' in line:
 		continue
-	if trainFile == 'test.csv':
+	if   'test.csv' in trainFile:
 		PTID, MonthID, WhitePlayer, BlackPlayer, WhiteScore, Trash = line.split(',')
 	else :
 		PTID, MonthID, WhitePlayer, BlackPlayer, WhiteScore, WhitePlayerPrev, BlackPlayerPrev = line.split(',')
@@ -205,6 +210,6 @@ for line in f:
 #table = table.append(pd.DataFrame(tmp_dict, index = [i]))
 #table.to_csv('localDataFrame.csv')
 
-f.write()
+f.close()
 output.close()
 

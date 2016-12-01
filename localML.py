@@ -10,10 +10,13 @@ from snap import *
 from sklearn import linear_model, datasets
 from sklearn.ensemble import RandomForestClassifier
 
+np.random.seed(1)
 
-train = pd.read_csv('data/valFeatures.csv').fillna(0)#.drop('Unnamed: 0',1)
+addOn = 'NoLoops'
+
+train = pd.read_csv('data/val'+addOn+'Features.csv').fillna(0)#.drop('Unnamed: 0',1)
 #train = train.drop('Black_PRank', 1).drop('White_PRank', 1)
-test = pd.read_csv('data/testFeatures.csv').fillna(0)#.drop('Unnamed: 0',1)
+test = pd.read_csv('data/test'+addOn+'Features.csv').fillna(0)#.drop('Unnamed: 0',1)
 #test = test.drop('Black_PRank', 1).drop('White_PRank', 1)
 # test = test[test.TrueWhiteScore >= 0]
 
@@ -66,7 +69,7 @@ y_pred = logreg.predict(test[predictors].as_matrix())
 points = 0
 total = 0
 error = 0
-f = open('prediction/LogisticRegressionPredict.csv', 'w')
+f = open('prediction/LogisticRegression'+addOn+'Predict.csv', 'w')
 for pred, true in zip(y_pred ,[str(x) for x in list(test.TrueWhiteScore.values)] ):
 	# for pred, ptid_true in zip(y_pred ,[(ptid, true) for x in zip([str(x) for x in list(test.PTID.values)] ,\
 	# 	[str(x) for x in list(test.TrueWhiteScore.values)] )] ):
@@ -89,7 +92,7 @@ y_pred = mod.predict(test[predictors].as_matrix())
 points = 0
 total = 0
 error = 0
-f = open('prediction/RandomForestPredict.csv', 'w')
+f = open('prediction/RandomForest'+addOn+'Predict.csv', 'w')
 for pred, true in zip(y_pred ,[str(x) for x in list(test.TrueWhiteScore.values)] ):
 	if true == -1: continue
 	error+= abs(float(pred) - float(true))
@@ -123,20 +126,12 @@ print error*1.0 / total
 
 
 print 'Random'
-y_pred = [str(x) for x in list(test.TrueWhiteScore.values)]
-random.shuffle(y_pred)
-
-points = 0
-total = 0
-error = 0
-for pred, true in zip(y_pred ,[str(x) for x in list(test.TrueWhiteScore.values)] ):
-	error+= abs(float(pred) - float(true))
-	total += 1
-	if pred == true:
-		points+=1
-
-print error*1.0 / total
-
+f = open('prediction/random.csv', 'w')
+for i in range(len(y_pred)):
+	pred = random.choice([0,0.5,1])
+	f.write(str(i+1)+','+ str(pred) + '\n')
+print 'LogisticRegression'
+f.close()
 
 
 print 'without pagerank'
@@ -160,7 +155,7 @@ y_pred = logreg.predict(test[predictors].as_matrix())
 points = 0
 total = 0
 error = 0
-f = open('prediction/LogisticRegressionPredictNoPRank.csv', 'w')
+f = open('prediction/LogisticRegression'+addOn+'PredictNoPRank.csv', 'w')
 for pred, true in zip(y_pred ,[str(x) for x in list(test.TrueWhiteScore.values)] ):
 	# for pred, ptid_true in zip(y_pred ,[(ptid, true) for x in zip([str(x) for x in list(test.PTID.values)] ,\
 	# 	[str(x) for x in list(test.TrueWhiteScore.values)] )] ):
@@ -183,7 +178,7 @@ y_pred = mod.predict(test[predictors].as_matrix())
 points = 0
 total = 0
 error = 0
-f = open('prediction/RandomForestPredictNoPRank.csv', 'w')
+f = open('prediction/RandomForest'+addOn+'PredictNoPRank.csv', 'w')
 for pred, true in zip(y_pred ,[str(x) for x in list(test.TrueWhiteScore.values)] ):
 	if true == -1: continue
 	error+= abs(float(pred) - float(true))
