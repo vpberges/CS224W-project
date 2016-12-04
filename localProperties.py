@@ -121,10 +121,7 @@ i=0
 for line in f:
 	if 'MonthID' in line:
 		continue
-	if   'test.csv' in trainFile:
-		PTID, MonthID, WhitePlayer, BlackPlayer, WhiteScore, Trash = line.split(',')
-	else :
-		PTID, MonthID, WhitePlayer, BlackPlayer, WhiteScore, WhitePlayerPrev, BlackPlayerPrev = line.split(',')
+	PTID, MonthID, WhitePlayer, BlackPlayer, WhiteScore = line.split(',')[:5]
 	MonthID, WhitePlayer, BlackPlayer, WhiteScore = int(MonthID), int(WhitePlayer), int(BlackPlayer), float(WhiteScore)
 	tmp_dict = {'DVL': 0, 'DL': 0, 'White_D': 0, 'VDV': 0, 'DVD': 0, 'DD': 0, 'DDL': 0, 'White_L': 0, 'Black_L': 0, 'LLV': 0,\
 	 'VDD': 0, 'White_V': 0, 'DV': 0, 'DVV': 0, 'VDL': 0, 'LD': 0, 'VLL': 0, 'LDD': 0, 'VVV': 0, 'LL': 0, 'Black_D': 0, 'VLD': 0, \

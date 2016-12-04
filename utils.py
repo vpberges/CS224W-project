@@ -12,9 +12,9 @@ def get_graph(fileName, Graph, EIds, giveStats=False):
 	maxMonth = float('-inf')
 
 	for line in f:
-		if 'PTID' in line:
+		if 'PTID' in line or 'WTEID' in line:
 			continue
-		PTID, MonthID, WhitePlayer, BlackPlayer, WhiteScore, WhitePlayerPrev, BlackPlayerPrev = line.split(',')
+		PTID, MonthID, WhitePlayer, BlackPlayer, WhiteScore = line.split(',')[:5]
 		MonthID, WhitePlayer, BlackPlayer, WhiteScore = int(MonthID), int(WhitePlayer), int(BlackPlayer), float(WhiteScore)
                 minMonth = min(minMonth, MonthID)
                 maxMonth = max(maxMonth, MonthID)

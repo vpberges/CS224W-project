@@ -12,7 +12,9 @@ from sklearn.ensemble import RandomForestClassifier
 
 np.random.seed(1)
 
-addOn = 'NoLoops'
+#addOn = 'NoLoops'
+# addOn = '_basketball_'
+addOn = '_soccer_'
 
 train = pd.read_csv('data/val'+addOn+'Features.csv').fillna(0)#.drop('Unnamed: 0',1)
 #train = train.drop('Black_PRank', 1).drop('White_PRank', 1)
@@ -88,6 +90,10 @@ mod.fit(train[predictors].as_matrix(), [str(x) for x in list(train.TrueWhiteScor
 
 y_pred = mod.predict(test[predictors].as_matrix())
 
+importances = mod.feature_importances_
+indices = np.argsort(importances)[::-1]
+for f in range(train[predictors].shape[1]):
+    print f,' : ', predictors[f],' --> ', importances[indices[f]]
 
 points = 0
 total = 0
