@@ -42,8 +42,8 @@ if(False):
 #y_true, y_hat, cnf_matrix = accuracy('test.csv', 'random.csv')
 y_true, y_hat, cnf_matrix = accuracy('test.csv', 'baseline.csv')
 y_true, y_hat, cnf_matrix = accuracy('test.csv', 'initial_ratings.csv')
-y_true, y_hat, cnf_matrix = accuracy('test.csv', 'PR/pagerank_weighted_age_tiebreak.csv')
-y_true, y_hat, cnf_matrix = accuracy('test.csv', 'PR/pagerank_weighted_age_tiebreak_theta.csv')
+y_true, y_hat, cnf_matrix = accuracy('test.csv', 'PR/pagerank_weighted_age.csv')
+y_true, y_hat, cnf_matrix = accuracy('test.csv', 'PR/pagerank_weighted_age_theta.csv')
 y_true, y_hat, cnf_matrix = accuracy('test.csv', 'log_PR/pagerank_weighted_age_log.csv')
 y_true, y_hat, cnf_matrix = accuracy('test.csv', 'log_PR/pagerank_weighted_age_log_theta.csv')
 
