@@ -35,7 +35,6 @@ def accuracy(test, predicted, **kwargs):
 	with open(test, 'rU') as f:
 		next(f)
 		for line in f:
-			# if test == 'data/test.csv' :
 			if 'test' in test:
 				TEID, MonthID, WhitePlayer, BlackPlayer, WhiteScore, Leaderboard = line.strip().split(',')
 			else:

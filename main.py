@@ -47,6 +47,7 @@ if(False):
 #############################################################
 #y_true, y_hat, cnf_matrix = accuracy('test.csv', 'random.csv')
 
+
 # y_true, y_hat, cnf_matrix = accuracy('test.csv', 'baseline.csv')
 # y_true, y_hat, cnf_matrix = accuracy('test.csv', 'initial_ratings.csv')
 # y_true, y_hat, cnf_matrix = accuracy('test.csv', 'PR/pagerank_weighted_age_tiebreak.csv')
@@ -85,5 +86,3 @@ if(False):
 # y_true, y_hat, cnf_matrix = accuracy('test.csv', 'beatPrediction.csv')
 
 
-
-y_true, y_hat, cnf_matrix = accuracy('test.csv', 'BoostingPredict.csv')
