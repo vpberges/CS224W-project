@@ -92,6 +92,6 @@ def calc_trueskill(fileName, env):
     return ratings
 
 # Output predictions to file
-ratings = calc_trueskill('train_basketball',env)
-args = {'testfile': 'test_basketball.csv'}
-pred = output_prediction(ratings, 'basketball/trueSkill_tiebreak.csv', env, **args) 
+ratings = calc_trueskill('training',env)
+args = {'testfile': 'test.csv'}
+pred = output_prediction(ratings, 'trueSkill_tiebreak.csv', env, **args) 
