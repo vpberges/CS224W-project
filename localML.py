@@ -13,8 +13,15 @@ from sklearn.ensemble import RandomForestClassifier
 np.random.seed(1)
 
 #addOn = 'NoLoops'
-# addOn = '_basketball_'
-addOn = '_soccer_'
+addOn = '_basketball_'
+# addOn = '_soccer_'
+
+
+test_file = 'data/test.csv'
+if  'soccer' in addOn:
+	test_file = 'data/test_soccer.csv'
+if 'basketball' in addOn:
+	test_file = 'data/test_basketball.csv'
 
 train = pd.read_csv('data/val'+addOn+'Features.csv').fillna(0)#.drop('Unnamed: 0',1)
 #train = train.drop('Black_PRank', 1).drop('White_PRank', 1)
@@ -72,16 +79,19 @@ points = 0
 total = 0
 error = 0
 f = open('prediction/LogisticRegression'+addOn+'Predict.csv', 'w')
+
+fff = open(test_file, 'Ur')
+fff.readline()
 for pred, true in zip(y_pred ,[str(x) for x in list(test.TrueWhiteScore.values)] ):
 	# for pred, ptid_true in zip(y_pred ,[(ptid, true) for x in zip([str(x) for x in list(test.PTID.values)] ,\
 	# 	[str(x) for x in list(test.TrueWhiteScore.values)] )] ):
 	error+= abs(float(pred) - float(true))
 	total += 1
-	f.write(str(total)+','+ str(pred) + '\n')
+	f.write(str(fff.readline().split(',')[0])+','+ str(pred) + '\n')
 print 'LogisticRegression'
 print error*1.0 / total
 f.close()
-
+fff.close()
 
 
 mod = RandomForestClassifier(100)
@@ -99,17 +109,20 @@ points = 0
 total = 0
 error = 0
 f = open('prediction/RandomForest'+addOn+'Predict.csv', 'w')
+
+fff = open(test_file, 'Ur')
+fff.readline()
 for pred, true in zip(y_pred ,[str(x) for x in list(test.TrueWhiteScore.values)] ):
 	if true == -1: continue
 	error+= abs(float(pred) - float(true))
 	total += 1
 	if pred == true:
 		points+=1
-	f.write(str(total)+','+ str(pred) + '\n')
+	f.write(str(fff.readline().split(',')[0])+','+ str(pred) + '\n')
 print 'RandomForestClassifier'
 print error*1.0 / total
 f.close()
-
+fff.close()
 
 print 'Linear Lasso'
 mod = linear_model.Lasso(0.4)
@@ -162,16 +175,18 @@ points = 0
 total = 0
 error = 0
 f = open('prediction/LogisticRegression'+addOn+'PredictNoPRank.csv', 'w')
+fff = open(test_file, 'r')
+fff.readline()
 for pred, true in zip(y_pred ,[str(x) for x in list(test.TrueWhiteScore.values)] ):
 	# for pred, ptid_true in zip(y_pred ,[(ptid, true) for x in zip([str(x) for x in list(test.PTID.values)] ,\
 	# 	[str(x) for x in list(test.TrueWhiteScore.values)] )] ):
 	error+= abs(float(pred) - float(true))
 	total += 1
-	f.write(str(total)+','+ str(pred) + '\n')
+	f.write(str(fff.readline().split(',')[0])+','+ str(pred) + '\n')
 print 'LogisticRegression'
 print error*1.0 / total
 f.close()
-
+fff.close()
 
 
 mod = RandomForestClassifier(100)
@@ -185,16 +200,19 @@ points = 0
 total = 0
 error = 0
 f = open('prediction/RandomForest'+addOn+'PredictNoPRank.csv', 'w')
+fff = open(test_file, 'Ur')
+fff.readline()
 for pred, true in zip(y_pred ,[str(x) for x in list(test.TrueWhiteScore.values)] ):
 	if true == -1: continue
 	error+= abs(float(pred) - float(true))
 	total += 1
 	if pred == true:
 		points+=1
-	f.write(str(total)+','+ str(pred) + '\n')
+	f.write(str(fff.readline().split(',')[0])+','+ str(pred) + '\n')
 print 'RandomForestClassifier'
 print error*1.0 / total
 f.close()
+fff.close()
 
 
 print 'Linear Lasso'

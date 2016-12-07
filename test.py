@@ -35,7 +35,8 @@ def accuracy(test, predicted, **kwargs):
 	with open(test, 'rU') as f:
 		next(f)
 		for line in f:
-			if test == 'data/test.csv':
+			# if test == 'data/test.csv' :
+			if 'test' in test:
 				TEID, MonthID, WhitePlayer, BlackPlayer, WhiteScore, Leaderboard = line.strip().split(',')
 			else:
 				TEID, MonthID, WhitePlayer, BlackPlayer, WhiteScore, WhitePlayerPrev, BlackPlayerPrev = line.strip().split(',')
@@ -63,7 +64,10 @@ def accuracy(test, predicted, **kwargs):
 	print '############# Method : ', predicted[11:-4], ' ################' 
 	print 'Mean Absolute Difference Error: ', sum(abs(y_true-y_hat))/len(y_true-y_hat) 
 	print 'Exact Accuracy: ', sum(abs(y_true-y_hat) == 0)*1.0/len(y_true-y_hat) 
-	print 'Balanced Accuracy: ', np.trace(cnf_matrix*1.0/np.sum(cnf_matrix, axis = 1))/3.0
+	try:
+		print 'Balanced Accuracy: ', np.trace(cnf_matrix*1.0/np.sum(cnf_matrix, axis = 1))/3.0
+	except:
+		print 'cannot do Balanced accuracy'
 	if(plot):
 		np.set_printoptions(precision=2)
 		# Plot non-normalized confusion matrix

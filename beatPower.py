@@ -12,9 +12,14 @@ Graph.AddIntAttrE('Weight')
 Graph.AddIntAttrE('MonthId')
 EIds = collections.defaultdict(list)
 
-Graph, EIds , stats= utils.get_graph('training', Graph, EIds, True)
-Graph, EIds , stats= utils.get_graph('../original_files/primary_training_part2', Graph, EIds, True)
-# Graph, EIds , stats= utils.get_graph('../original_files/primary_training_part1', Graph, EIds, True)
+# Graph, EIds , stats= utils.get_graph('training', Graph, EIds, True)
+# Graph, EIds , stats= utils.get_graph('../original_files/primary_training_part2', Graph, EIds, True)
+
+# Graph, EIds , stats= utils.get_graph('train_basketball', Graph, EIds, True)
+
+Graph, EIds , stats= utils.get_graph('train_soccer', Graph, EIds, True)
+
+### Graph, EIds , stats= utils.get_graph('../original_files/primary_training_part1', Graph, EIds, True)
 Graph, EIds  =  utils.noDraws(Graph, EIds)
 Graph, EIds  =  utils.noLoops(Graph, EIds)
 
@@ -32,7 +37,10 @@ def BeatPower(Graph, EIds):
 
 BPower = BeatPower(Graph, EIds)
 
-f = open('ranking/beatRank.csv','w')
+# f = open('ranking/beatRank_basketball.csv','w')
+
+f = open('ranking/beatRank_soccer.csv','w')
+
 for item in BPower:
 	f.write( str(item) + ',' + str(BPower[item]) + '\n')
 f.close()

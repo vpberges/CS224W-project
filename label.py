@@ -57,7 +57,8 @@ def output_prediction(rating, filename, **kwargs):
 	with open(testfile, 'rU') as f:
 		next(f)
 		for line in f:
-			if testfile == 'data/test.csv':
+			# if testfile == 'data/test.csv':
+			if 'test' in testfile:
 				TEID, MonthID, WhitePlayer, BlackPlayer, WhiteScore, Leaderboard = line.strip().split(',')
 			else:
 				TEID, MonthID, WhitePlayer, BlackPlayer, WhiteScore, WhitePlayerPrev, BlackPlayerPrev = line.split(',')
