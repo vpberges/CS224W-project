@@ -13,7 +13,7 @@ df.loc[:,'Referee'] = range(1, len(df) + 1)
 df.loc[:,'BbMxH'] = 1/df.loc[:,'BbMxH']
 df.loc[:,'BbMxD'] = 1/df.loc[:,'BbMxD']
 df.loc[:,'BbMxA'] = 1/df.loc[:,'BbMxA']
-df.loc[:,'Date'] = pd.to_datetime(df['Date']).dt.year.astype(int)
+df.loc[:,'Date'] = pd.to_datetime(df['Date']).dt.year.astype(int)*100+pd.to_datetime(df['Date']).dt.month.astype(int)
 teams = set(df.HomeTeam).union(set(df.AwayTeam))
 team_id = dict()
 count = 0
@@ -31,9 +31,9 @@ df = df.replace({"FTR": result})
 data = df[['Referee','Date', 'HomeTeam', 'AwayTeam', 'FTR', 'Div']]
 data.columns = ['WTEID','MonthID','WhitePlayer','BlackPlayer','WhiteScore','Leaderboard']
 
-train = data[data.MonthID <= 2014]
-valid = data[data.MonthID == 2015]
-test = data[data.MonthID == 2016]
+train = data[np.logical_and(data.MonthID > 201406,data.MonthID < 201501)]
+valid = data[np.logical_and(data.MonthID >= 201501,data.MonthID <= 201503)]
+test = data[np.logical_and(data.MonthID > 201503,data.MonthID < 201506)]
 
 train.to_csv('data/train_soccer.csv', index = False)
 valid.to_csv('data/valid_soccer.csv', index = False)
