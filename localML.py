@@ -13,8 +13,8 @@ from sklearn.ensemble import RandomForestClassifier
 np.random.seed(1)
 
 #addOn = 'NoLoops'
-addOn = '_basketball_'
-# addOn = '_soccer_'
+# addOn = '_basketball_'
+addOn = '_soccer_'
 
 
 test_file = 'data/test.csv'

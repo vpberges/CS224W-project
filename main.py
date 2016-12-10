@@ -79,10 +79,16 @@ if(False):
 
 
 
-# y_true, y_hat, cnf_matrix = accuracy('test_soccer.csv', 'RandomForest_soccer_Predict.csv')
+y_true, y_hat, cnf_matrix = accuracy('test_soccer.csv', 'RandomForest_soccer_Predict.csv')
 # y_true, y_hat, cnf_matrix = accuracy('test_basketball.csv', 'RandomForest_basketball_Predict.csv')
 # y_true, y_hat, cnf_matrix = accuracy('test_basketball.csv', 'beat_basketball_Prediction.csv')
 # y_true, y_hat, cnf_matrix = accuracy('test_soccer.csv', 'beat_soccer_Prediction.csv')
 # y_true, y_hat, cnf_matrix = accuracy('test.csv', 'beatPrediction.csv')
 
+
+y_true, y_hat, cnf_matrix = accuracy('test.csv', 'RandomForestPredict.csv')
+y_true, y_hat, cnf_matrix = accuracy('test.csv', 'BoostingPredict.csv')
+
+y_true, y_hat, cnf_matrix = accuracy('test_soccer.csv', 'Boosting_soccer_Predict.csv')
+y_true, y_hat, cnf_matrix = accuracy('test_basketball.csv', 'Boosting_basketball_Predict.csv')
 
